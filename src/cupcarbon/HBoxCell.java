@@ -117,6 +117,9 @@ public class HBoxCell extends HBox {
 
          this.setSpacing(3);
 
+
+
+
          this.getChildren().addAll(label, realNodeslist, run, stop,connectionStat);
          chooseRealNode();
     }
