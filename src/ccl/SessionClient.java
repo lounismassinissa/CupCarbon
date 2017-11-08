@@ -231,7 +231,7 @@ public class SessionClient extends Thread{
 	    	 data_socket_port = Integer.valueOf(realNodeId) + 9000 ;
 	    	 System.out.println(realNodeId + " sending script port: ");
 	    	 data_server_socket = new ServerSocket(data_socket_port);
-			 out.println(COMMAND.SCRIPT+" 172.12.18.3 "+data_socket_port);
+			 out.println(COMMAND.SCRIPT+" 10.3.141.2 "+data_socket_port);
 			 System.out.println(realNodeId + " Command script sended");
 			 data_socket = data_server_socket.accept();
 
