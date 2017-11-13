@@ -12,9 +12,9 @@ public class SenScriptWindow {
 
 	public SenScriptWindow() throws IOException {
 		Stage stage = new Stage();
-		stage.setTitle("SenScript");
+		stage.setTitle("PythonScript");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(SenScriptWindow.class.getResource("senscript.fxml"));
+		loader.setLocation(SenScriptWindow.class.getResource("pythonscript.fxml"));
 		BorderPane panneau = (BorderPane) loader.load();
 		Scene scene = new Scene(panneau);
 		stage.setScene(scene);		
