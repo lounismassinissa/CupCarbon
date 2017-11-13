@@ -13,8 +13,8 @@ public class Starter extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		 CupCarbon.server.synchroRealAndVirtualNode(id, id);
-		 CupCarbon.server.runScript(String.valueOf(id));
+		 CupCarbon.cupCarbonController.real_nodes_server.synchroRealAndVirtualNode(id, id);
+		 CupCarbon.cupCarbonController.real_nodes_server.runScript(String.valueOf(id));
 	}
 
 }

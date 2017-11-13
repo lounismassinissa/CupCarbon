@@ -77,7 +77,10 @@ public class SessionClient extends Thread{
   public void setSynchro(boolean syn){
 	  synch = syn;
   }
-
+  
+  public boolean isConnected() {
+	 return _s.isConnected();
+  }
 
   public String ip(){
 	  return ip;

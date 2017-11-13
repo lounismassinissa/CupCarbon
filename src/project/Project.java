@@ -176,6 +176,7 @@ public final class Project {
 		CupCarbon.cupCarbonController.applyParameters();
 		CupCarbon.cupCarbonController.saveButton.setDisable(false);
 		CupCarbon.cupCarbonController.initRealNodesParameters();
+		CupCarbon.cupCarbonController.startRealNodesServer();
 		if(DeviceList.propagationsCalculated) DeviceList.calculatePropagations();
 	}
 
@@ -225,6 +226,7 @@ public final class Project {
 				copyResProjectFiles(path1, path2);
 			}
 			CupCarbon.cupCarbonController.saveButton.setDisable(false);
+			CupCarbon.cupCarbonController.startRealNodesServer();
 		}
 		else {
 			Alert alert = new Alert(AlertType.WARNING);

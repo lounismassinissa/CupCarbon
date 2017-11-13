@@ -61,7 +61,7 @@ public class CupCarbon extends Application {
 	public static Stage stage;
 	public static CupCarbonController cupCarbonController;
 	public static boolean macos = false;
-	public static Server server;
+	
 
 
 
@@ -117,9 +117,7 @@ public class CupCarbon extends Application {
 			SolverProxyParams.host = args[1];
 			SolverProxyParams.port = args[2];
 		}
-		// Start IoT Server
-		server = new Server();
-		server.start();
+		
 
 		launch(args);
 	}

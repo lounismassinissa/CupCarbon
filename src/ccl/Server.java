@@ -23,7 +23,6 @@ public class Server extends Thread
 
    }
 
-
    public void run()
    {
 
@@ -31,19 +30,17 @@ public class Server extends Thread
     {
       Integer port;
       port=new Integer("8888");
-
       //new Commandes(server);
-
       ServerSocket ss = new ServerSocket(port.intValue());
       //view = new ServerView(server);
       SessionClient sc;
-
       while (true)
       {
     	  sc = new SessionClient(ss.accept() , this);
     	  currentSession.addLast(sc);
     	  sc.start();
       }
+       
     }
     catch (Exception e) { }
   }
@@ -51,6 +48,11 @@ public class Server extends Thread
   synchronized public void delClient(String id)
   {
 	System.out.println("client "+id+" deconnected");
+	String path = Project.getRealNodePath();
+	String realNodeFileName = path+File.separator+id+".rn";
+	RealNodeConfig config = new RealNodeConfig(realNodeFileName);
+	config.status = "offline";
+	config.save();
     CupCarbon.cupCarbonController.updateRealNodeItemConnection();
   }
 

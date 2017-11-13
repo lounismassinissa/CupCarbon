@@ -59,6 +59,7 @@ import action.CupActionModifSensorUnitRadius;
 import action.CupActionStack;
 import arduino.Arduino;
 import buildings.BuildingList;
+import ccl.Checker;
 import ccl.RealNodeConfig;
 import ccl.Server;
 import cupcarbon_script.CupCarbonServer;
@@ -378,7 +379,9 @@ public class CupCarbonController implements Initializable {
 	@FXML
 	public Button stopAll;
 
-	public ObservableList<HBoxCell> myObservableList;
+	public static ObservableList<HBoxCell> myObservableList;
+	
+	public static Server real_nodes_server;
 
 	@FXML
 	public void closeLeftMenu() {
@@ -935,6 +938,7 @@ public class CupCarbonController implements Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+			
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Open CupCarbon file");
 
@@ -945,6 +949,7 @@ public class CupCarbonController implements Initializable {
 					Project.openProject(file.getParentFile().toString(), file.getName().toString());
 					CupCarbon.stage.setTitle("CupCarbon " + CupCarbonVersion.VERSION + " [" + file.getAbsolutePath().toString() + "]");
 					openProjectLoadParameters();
+					
 				}
 			}
 		});
@@ -959,7 +964,19 @@ public class CupCarbonController implements Initializable {
 		initScriptRealNodeGpsEventComboBoxes();
 		mapFocus();
 	}
-
+	public void startRealNodesServer() {
+		// Start IoT Server
+		
+		System.out.println("---------------------------------------------");
+		System.out.println("Start Real Nodes Server !");
+		System.out.println("---------------------------------------------");
+		real_nodes_server = new Server();
+		real_nodes_server.start();
+		
+		// Start nodes connection Checker
+		//Checker ck =  new Checker();
+		//ck.start();
+	}
 	@FXML
 	public void reset() {
 		CupCarbon.stage.setTitle("CupCarbon " + CupCarbonVersion.VERSION);
@@ -1060,11 +1077,11 @@ public class CupCarbonController implements Initializable {
 			if (sensor.isSelected()) {
 				String currentRealNodeName = sensor.getRealNodeName();
 				// Synchronize Virtual and Real Node
-				CupCarbon.server.synchroRealAndVirtualNode(newRealNodeName,String.valueOf(sensor.getId()));
+				real_nodes_server.synchroRealAndVirtualNode(newRealNodeName,String.valueOf(sensor.getId()));
 				CupAction action = new CupActionModifRealNode((SensorNode) sensor, currentRealNodeName,
 						newRealNodeName);
 				block.addAction(action);
-				CupCarbon.server.sendScript(newRealNodeName);
+				real_nodes_server.sendScript(newRealNodeName);
 			}
 		}
 		for (Device device : DeviceList.devices) {
@@ -1917,7 +1934,7 @@ public class CupCarbonController implements Initializable {
 	public void updateRealNode(String id, String ip){
 
 
-		if(!CupCarbon.server.isEmulatedNode(id)){
+		if(!real_nodes_server.isEmulatedNode(id)){
 			String path = Project.getRealNodePath();
 			String realNodeFileName = path+File.separator+id+".rn";
 			File file = new File(realNodeFileName);
@@ -3119,15 +3136,15 @@ public class CupCarbonController implements Initializable {
 			cell.run.setDisable(true);
    		 	String realNodeCurrentID = cell.getSelectedElementCurrentID();
    		 	if(realNodeCurrentID.equals("virtual")){
-   		 		if(!CupCarbon.server.isEmulatedNode(cell.getVirtualNodeId())){
-   		 			CupCarbon.server.createRealNodeEmulator(cell.getVirtualNodeId());
+   		 		if(!real_nodes_server.isEmulatedNode(cell.getVirtualNodeId())){
+   		 			real_nodes_server.createRealNodeEmulator(cell.getVirtualNodeId());
    		 		}
    		 		Starter start =  new Starter(cell.getVirtualNodeId());
    		 		start.start();
 
    		 	}else{
-   		 		CupCarbon.server.synchroRealAndVirtualNode(realNodeCurrentID, cell.getVirtualNodeId());
-   		 		CupCarbon.server.sendScript(realNodeCurrentID);
+   		 		real_nodes_server.synchroRealAndVirtualNode(realNodeCurrentID, cell.getVirtualNodeId());
+   		 		real_nodes_server.sendScript(realNodeCurrentID);
    		 	}
    		    cell.stop.setDisable(false);
 		}
@@ -3143,10 +3160,10 @@ public class CupCarbonController implements Initializable {
 			
    		    String realNodeCurrentID = cell.getSelectedElementCurrentID();
    		    if(realNodeCurrentID.equals("virtual")){
-   		    	CupCarbon.server.stopScript(String.valueOf(cell.getVirtualNodeId()));
+   		    	real_nodes_server.stopScript(String.valueOf(cell.getVirtualNodeId()));
    		    	CupCarbon.cupCarbonController.getSensorNodeById(Integer.valueOf(cell.getVirtualNodeId())).setMarked(false);
    		    }else{
-   		    	CupCarbon.server.stopScript(realNodeCurrentID);
+   		    	real_nodes_server.stopScript(realNodeCurrentID);
    		    	CupCarbon.cupCarbonController.getSensorNodeById(Integer.valueOf(cell.getVirtualNodeId())).setMarked(false);
    		    }
 

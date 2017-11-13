@@ -58,6 +58,8 @@ public class HBoxCell extends HBox {
 			} catch (IOException e) {
 				System.err.println("error load icon image");
 			}
+			
+			
 
 
          myItems = FXCollections.observableArrayList (allItems);
@@ -76,16 +78,16 @@ public class HBoxCell extends HBox {
         		 run.setDisable(true);
         		 String realNodeCurrentID = getSelectedElementCurrentID();
         		 if(realNodeCurrentID.equals("virtual")){
-        			 if(!CupCarbon.server.isEmulatedNode(virtualNodeId)){
-        				 CupCarbon.server.createRealNodeEmulator(virtualNodeId);
+        			 if(!CupCarbon.cupCarbonController.real_nodes_server.isEmulatedNode(virtualNodeId)){
+        				 CupCarbon.cupCarbonController.real_nodes_server.createRealNodeEmulator(virtualNodeId);
         			 }
         			 Starter start =  new Starter(virtualNodeId);
         			 start.start();
 
 
         		 }else{
-	        		 CupCarbon.server.synchroRealAndVirtualNode(realNodeCurrentID, virtualNodeId);
-	        		 CupCarbon.server.sendScript(realNodeCurrentID);
+        			 CupCarbon.cupCarbonController.real_nodes_server.synchroRealAndVirtualNode(realNodeCurrentID, virtualNodeId);
+        			 CupCarbon.cupCarbonController.real_nodes_server.sendScript(realNodeCurrentID);
 	        	 }
         		 stop.setDisable(false);
 
@@ -98,10 +100,10 @@ public class HBoxCell extends HBox {
         		 stop.setDisable(true);
         		 String realNodeCurrentID = getSelectedElementCurrentID();
         		 if(realNodeCurrentID.equals("virtual")){
-        			 CupCarbon.server.stopScript(virtualNodeId);
+        			 CupCarbon.cupCarbonController.real_nodes_server.stopScript(virtualNodeId);
         			 CupCarbon.cupCarbonController.getSensorNodeById(Integer.valueOf(virtualNodeId)).setMarked(false);
         		 }else{
-        			 CupCarbon.server.stopScript(realNodeCurrentID);
+        			 CupCarbon.cupCarbonController.real_nodes_server.stopScript(realNodeCurrentID);
         			 CupCarbon.cupCarbonController.getSensorNodeById(Integer.valueOf(virtualNodeId)).setMarked(false);
         		 }
         		 run.setDisable(false);
@@ -117,11 +119,9 @@ public class HBoxCell extends HBox {
 
          this.setSpacing(3);
 
-
-
-
          this.getChildren().addAll(label, realNodeslist, run, stop,connectionStat);
          chooseRealNode();
+         updateConnection();
     }
 
     public String getSelectedElementCurrentID(){
@@ -144,7 +144,7 @@ public class HBoxCell extends HBox {
     		return true;
     	}else{
 	    	String path = Project.getRealNodePath();
-			String realNodeFileName = path +File.separator+ name;
+		String realNodeFileName = path +File.separator+ name;
 	    	RealNodeConfig config= new RealNodeConfig(realNodeFileName);
 	    	if(config.status.equals("offline")){
 	    		Alert alert = new Alert(AlertType.ERROR);
@@ -182,7 +182,6 @@ public class HBoxCell extends HBox {
 		}
     }
 
-
     public void setSelectedItem(String item){
     	this.myItems.add(item);
     	realNodeslist.getSelectionModel().select(itemPos(item));
@@ -196,16 +195,16 @@ public class HBoxCell extends HBox {
     }
 
     public void updateConnection(){
-    	String current;
+    		String current;
 
-    	FileInputStream imageStream;
-    	String name = (String) realNodeslist.getValue();
-    	try {
-    		current = new java.io.File( "." ).getCanonicalPath();
-    		if(!name.equals("virtual")){
-    			String path = Project.getRealNodePath();
-    			String realNodeFileName = path +File.separator+ name;
-    			RealNodeConfig config= new RealNodeConfig(realNodeFileName);
+    		FileInputStream imageStream;
+    		String name = (String) realNodeslist.getValue();
+    		try {
+    			current = new java.io.File( "." ).getCanonicalPath();
+    			if(!name.equals("virtual")){
+    				String path = Project.getRealNodePath();
+    				String realNodeFileName = path +File.separator+ name;
+    				RealNodeConfig config= new RealNodeConfig(realNodeFileName);
 
 				if(config.status.equals("offline")){
 					imageStream = new FileInputStream(current+File.separator+"tiles"+File.separator+"offline.png");
@@ -216,8 +215,8 @@ public class HBoxCell extends HBox {
 				this.connectionStat.setImage(image);
 
 	    	}else{
-	    		imageStream = new FileInputStream(current+File.separator+"tiles"+File.separator+"online.png");
-	    		Image image = new Image (imageStream );
+	    			imageStream = new FileInputStream(current+File.separator+"tiles"+File.separator+"online.png");
+	    			Image image = new Image (imageStream );
 				this.connectionStat.setImage(image);
 
 	    	}
