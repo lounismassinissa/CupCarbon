@@ -82,18 +82,18 @@ public class Server extends Thread
   synchronized public void send(String cmd, String src, String dist, String msg){
 
 	  SessionClient distNodeSession;
+	  
 	  System.out.println("send "+src+"---->"+dist+" ["+msg+"]");
 	  if(dist.equals("*")){
 		  List neighbors = Adapter.getVirtualNodeByRealNodeId(src).getNeighbors();
 		  SensorNode neighbor;
-		  String distSession;
+		  String realNodeDist;
 
 		  for (int i = 0; i < neighbors.size(); i++) {
 			  neighbor = (SensorNode) neighbors.get(i);
-			  distSession = neighbor.getRealNodeName();
-			  if(!distSession.equals("")){
-				  distNodeSession = getSessionByRealNodeId(distSession);
-				  distNodeSession.send(cmd+" "+src+" "+distSession+" "+msg);
+			  distNodeSession = Adapter.getSessionByVirtualNodeId(neighbor.getId()+"");
+			  if(distNodeSession != null){
+				  distNodeSession.send(cmd+" "+src+" "+neighbor.getId()+" "+msg);
 			  }else{
 				  System.out.println("real node not yet affected for node :"+neighbor.getId());
 			  }

@@ -3169,6 +3169,7 @@ public class CupCarbonController implements Initializable {
 
    		    cell.run.setDisable(false);
 		}
+		DeviceList.removeAllEdge();
 
 		MapLayer.repaint();
 	}

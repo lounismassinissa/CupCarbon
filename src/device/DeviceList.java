@@ -1210,6 +1210,10 @@ public class DeviceList {
 		}
 	}
 	
+	public static void removeAllEdge() {
+		markedEdges.removeAll(markedEdges);
+	}
+	
 	public static void noEdge(SensorNode sn1, SensorNode sn2) {
 		removeEdge(sn1, sn2);
 		MapLayer.repaint();

@@ -182,8 +182,8 @@ public class SessionClient extends Thread{
 
 		  String script = Adapter.getVirtualNodeByRealNodeId(realNodeId).getScriptFileName();
 		  display(this.getID()+"", script);
-		  String x = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getIntPosition()[0]);
-		  String y = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getIntPosition()[1]);
+		  String x = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getLatitude());
+		  String y = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getLongitude());
 		  display(this.getID()+"", x+" "+y);
 		  out.println(COMMAND.RUN_SCRIPT+" "+script+" "+Adapter.getVirtualNodeByRealNodeId(realNodeId).getId()+" "+Adapter.getVirtualNodeByRealNodeId(realNodeId).getNeighbors().size()+" "+x+" "+y);
 
@@ -211,8 +211,10 @@ public class SessionClient extends Thread{
 		  int id2 = Integer.valueOf(tab[2]);
 		  SensorNode sensor1 = DeviceList.getSensorNodeById(id1);
 		  SensorNode sensor2 = DeviceList.getSensorNodeById(id2);
+		  System.out.println("edge "+id1+"    "+id2);
 
 		  DeviceList.addEdge(sensor1, sensor2);
+		  MapLayer.repaint();
 	  }
 	  if(tab[0].compareTo(COMMAND.REMOVEEDGE)==0){
 		  int id1 = Integer.valueOf(tab[1]);
@@ -261,8 +263,8 @@ public class SessionClient extends Thread{
   public void runScript(){
 	  out.println(COMMAND.RUN_SCRIPT);
 	  String script = Adapter.getVirtualNodeByRealNodeId(realNodeId).getScriptFileName();
-	  String x = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getIntPosition()[0]);
-	  String y = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getIntPosition()[1]);
+	  String x = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getLongitude());
+	  String y = String.valueOf(Adapter.getVirtualNodeByRealNodeId(realNodeId).getLatitude());
 	  out.println(COMMAND.RUN_SCRIPT+" "+script+" "+Adapter.getVirtualNodeByRealNodeId(realNodeId).getId()+" "+Adapter.getVirtualNodeByRealNodeId(realNodeId).getNeighbors().size()+" "+x+" "+y);
   }
 
