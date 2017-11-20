@@ -22,8 +22,8 @@ public class SenScriptController implements Initializable{
 
 	@FXML
 	private ComboBox<String> txtLoadFileName;
-	
-	
+
+
 	@FXML
 	private TextField txt_editor;
 
@@ -32,12 +32,12 @@ public class SenScriptController implements Initializable{
 
 	@FXML
 	private void sendCom() {
-		
+
 			String fileName = txtLoadFileName.getValue();
 			//String editor = txt_editor.getText();
-			
+
 			Project.openFile(null, fileName);
-		
+
 	}
 
 
@@ -77,8 +77,8 @@ public class SenScriptController implements Initializable{
 				File script = new File(Project.getScriptFileFromName(fileName));
 				 try {
 					if (!script.createNewFile()) System.out.println("File already exists.");
-					String editor = txt_editor.getText();
-					Project.openFile(editor, fileName);
+					//String editor = txt_editor.getText();
+					Project.openFile(null, fileName);
 				  } catch (IOException e) {
 					e.printStackTrace();
 				  }

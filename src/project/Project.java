@@ -563,41 +563,41 @@ public final class Project {
 			System.err.println("[CupCarbon ERROR] -> lIstParameters() Project -> Parameters are Missing");
 		}
 	}
-	
+
 	public static void openFile(String editor, String fileName){
 		String OS;
 		OS = System.getProperty("os.name");
 		System.out.println("OS: "+OS);
 		try {
 			if(OS.startsWith("Windows")) {
-				
+
 			}
-			if(OS.startsWith("Unix")) {	
+			if(OS.startsWith("Linux")) {
 				if(editor == null || editor.compareTo("") == 0) {
 					String leditor = "gedit";
-					String[] cmd = {leditor,fileName};
+					String[] cmd = {leditor,Project.getScriptFileFromName(fileName)};
 					System.out.println(cmd);
 					Process p = Runtime.getRuntime().exec(cmd);
 				}else {
-					String[] cmd = {editor,fileName};
+					String[] cmd = {editor,Project.getScriptFileFromName(fileName)};
 					System.out.println(cmd);
 					Process p = Runtime.getRuntime().exec(cmd);
 				}
-				
+
 			}
 			if(OS.startsWith("Mac")) {
-		
+
 			     if(editor == null || editor.compareTo("") == 0) {
 						Process p = Runtime.getRuntime().exec("open -e "+Project.getScriptFileFromName(fileName));
-					
+
 				 }else {
 					    Process p = Runtime.getRuntime().exec("open -a "+editor+" "+Project.getScriptFileFromName(fileName));
 				 }
-			
+
 		     }
-			
+
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}

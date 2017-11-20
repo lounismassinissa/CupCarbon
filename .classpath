@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 8 [1.8.0_151]"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-openjdk-amd64"/>
 	<classpathentry kind="lib" path="lib/openstreetmap/swingx-ws-2007_10_14.jar"/>
 	<classpathentry kind="lib" path="lib/openstreetmap/swingx.jar"/>
 	<classpathentry kind="lib" path="lib/opencl/JOCL-0.1.9.jar"/>
