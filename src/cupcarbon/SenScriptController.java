@@ -32,16 +32,12 @@ public class SenScriptController implements Initializable{
 
 	@FXML
 	private void sendCom() {
-		 try {
+		
 			String fileName = txtLoadFileName.getValue();
-			System.out.println("-----------------------------------------------------------------");
-			String editor = txt_editor.getText();
-			String[] cmd = {editor,Project.getScriptFileFromName(fileName)};
-			System.out.println(cmd);
-			Process p = Runtime.getRuntime().exec(cmd);
-		 } catch (IOException e) {
-			e.printStackTrace();
-		 }
+			//String editor = txt_editor.getText();
+			
+			Project.openFile(null, fileName);
+		
 	}
 
 
@@ -82,9 +78,7 @@ public class SenScriptController implements Initializable{
 				 try {
 					if (!script.createNewFile()) System.out.println("File already exists.");
 					String editor = txt_editor.getText();
-					String[] cmd = {editor,Project.getScriptFileFromName(fileName)};
-
-					Process p = Runtime.getRuntime().exec(cmd);
+					Project.openFile(editor, fileName);
 				  } catch (IOException e) {
 					e.printStackTrace();
 				  }

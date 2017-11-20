@@ -10,7 +10,7 @@ public class Checker extends Thread {
 
 	
 	public Checker() {
-
+		this.start();
 	}
 	public void run() {
 		while(true) {
@@ -34,7 +34,7 @@ public class Checker extends Thread {
 						config.status = "offline";
 					}
 				}else {
-					System.out.println("session null");
+					//System.out.println("session null");
 				}
 				config.save();
 				cell.updateConnection();

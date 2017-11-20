@@ -34,6 +34,7 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 import action.CupActionStack;
 import buildings.BuildingList;
+import ccl.Checker;
 import cupcarbon.CupCarbon;
 import cupcarbon.CupCarbonVersion;
 import device.DeviceList;
@@ -177,6 +178,7 @@ public final class Project {
 		CupCarbon.cupCarbonController.saveButton.setDisable(false);
 		CupCarbon.cupCarbonController.initRealNodesParameters();
 		CupCarbon.cupCarbonController.startRealNodesServer();
+		new Checker();
 		if(DeviceList.propagationsCalculated) DeviceList.calculatePropagations();
 	}
 
@@ -227,6 +229,7 @@ public final class Project {
 			}
 			CupCarbon.cupCarbonController.saveButton.setDisable(false);
 			CupCarbon.cupCarbonController.startRealNodesServer();
+			new Checker();
 		}
 		else {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -558,6 +561,44 @@ public final class Project {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			System.err.println("[CupCarbon ERROR] -> lIstParameters() Project -> Parameters are Missing");
+		}
+	}
+	
+	public static void openFile(String editor, String fileName){
+		String OS;
+		OS = System.getProperty("os.name");
+		System.out.println("OS: "+OS);
+		try {
+			if(OS.startsWith("Windows")) {
+				
+			}
+			if(OS.startsWith("Unix")) {	
+				if(editor == null || editor.compareTo("") == 0) {
+					String leditor = "gedit";
+					String[] cmd = {leditor,fileName};
+					System.out.println(cmd);
+					Process p = Runtime.getRuntime().exec(cmd);
+				}else {
+					String[] cmd = {editor,fileName};
+					System.out.println(cmd);
+					Process p = Runtime.getRuntime().exec(cmd);
+				}
+				
+			}
+			if(OS.startsWith("Mac")) {
+		
+			     if(editor == null || editor.compareTo("") == 0) {
+						Process p = Runtime.getRuntime().exec("open -e "+Project.getScriptFileFromName(fileName));
+					
+				 }else {
+					    Process p = Runtime.getRuntime().exec("open -a "+editor+" "+Project.getScriptFileFromName(fileName));
+				 }
+			
+		     }
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
 		}
 	}
 }
