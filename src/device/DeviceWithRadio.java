@@ -415,15 +415,27 @@ public abstract class DeviceWithRadio extends DeviceWithWithoutRadio {
 	 * @return if a neighbor device is in the radio area of the current device
 	 */
 	public boolean radioDetect(DeviceWithRadio device) {		
-		if (!DeviceList.propagationsCalculated)
-			return RadioDetection.simpleDetection(this, device);
-		else {
-			if (SimulationInputs.radioDetectionType == RadioDetection.POWER_RECEPTION_DETECTION)
-				return RadioDetection.powerReceptionDetection(this, device);
-			if (SimulationInputs.radioDetectionType == RadioDetection.THREED_DETECTION)
-				return RadioDetection.threeDDetection(this, device);
+		
+		if(!SimulationInputs.realNode) {
+		
+			if (!DeviceList.propagationsCalculated)
+				return RadioDetection.simpleDetection(this, device);
+			else {
+				if (SimulationInputs.radioDetectionType == RadioDetection.POWER_RECEPTION_DETECTION)
+					return RadioDetection.powerReceptionDetection(this, device);
+				if (SimulationInputs.radioDetectionType == RadioDetection.THREED_DETECTION)
+					return RadioDetection.threeDDetection(this, device);
+			}
+			return true;
+		}else {
+			if(this.neighbors.contains(device)) {
+				return true;
+			}else {
+				//System.out.println("radioDetect false");
+				return false;
+			}
 		}
-		return true;
+		
 	}
 	
 	public boolean radioDetect_vt(DeviceWithRadio device) {		
@@ -440,16 +452,17 @@ public abstract class DeviceWithRadio extends DeviceWithWithoutRadio {
 	 * @return if a neighbor device is in the propagation area of the current device
 	 */
 	public boolean propagationDetect(DeviceWithRadio device) {
-		return false;
-		/*
+		
 		if (DeviceList.propagationsCalculated)
 			return neighbors.contains(device);
 		else
 			return radioDetect(device);
-		*/
+		
 	}
 	
-	// massi
+	
+	
+	
 	public void calculatePropagations() {
 		
 		SimulationInputs.radioDetectionType = RadioDetection.POWER_RECEPTION_DETECTION;

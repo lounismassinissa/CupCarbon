@@ -1090,6 +1090,24 @@
                         <Tooltip text="Calculate Propagations" />
                      </tooltip>
                   </Button>
+                  
+                  
+                  <Button mnemonicParsing="false" onAction="#activateRealNodeMode">
+                     <graphic>
+                        <ImageView pickOnBounds="true" smooth="false">
+                           <image>
+                              <Image url="@../images/propagation.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip text="Real Node Propagations" />
+                     </tooltip>
+                  </Button>
+                  
                   <Button mnemonicParsing="false" onAction="#visibility">
                      <graphic>
                         <ImageView pickOnBounds="true" smooth="false">

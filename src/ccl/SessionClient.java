@@ -231,7 +231,9 @@ public class SessionClient extends Thread{
 		  SensorNode sensor2 = DeviceList.getSensorNodeById(id2);
 		  sensor1.addNeighbors(sensor2);
 		  
-		  
+		 // DeviceList.calculatePropagations();
+		  MapLayer.repaint();
+		
 		  System.out.println("Link between "+id1+"   and    "+id2);
 	  }
 

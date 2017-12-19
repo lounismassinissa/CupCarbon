@@ -649,6 +649,15 @@ public class CupCarbonController implements Initializable {
 		MapLayer.repaint();
 		mapFocus();
 	}
+	
+
+	@FXML
+	public void activateRealNodeMode() {
+		SimulationInputs.realNode = true;
+		DeviceList.calculatePropagations();
+		MapLayer.repaint();
+		mapFocus();
+	}
 
 	@FXML
 	public void visibility() {

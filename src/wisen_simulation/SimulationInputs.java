@@ -54,4 +54,6 @@ public class SimulationInputs {
 	public static boolean symmetricalLinks = false;
 	public static int radioDetectionType = RadioDetection.SIMPLE_DETECTION;
 	public static boolean visibility = false; 
+	
+	public static boolean realNode = false;
 }
