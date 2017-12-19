@@ -573,11 +573,14 @@ public final class Project {
 
 			}
 			if(OS.startsWith("Linux")) {
+				
 				if(editor == null || editor.compareTo("") == 0) {
+					
 					String leditor = "gedit";
 					String[] cmd = {leditor,Project.getScriptFileFromName(fileName)};
 					System.out.println(cmd);
 					Process p = Runtime.getRuntime().exec(cmd);
+					
 				}else {
 					String[] cmd = {editor,Project.getScriptFileFromName(fileName)};
 					System.out.println(cmd);
@@ -588,6 +591,7 @@ public final class Project {
 			if(OS.startsWith("Mac")) {
 
 			     if(editor == null || editor.compareTo("") == 0) {
+			    	 
 						Process p = Runtime.getRuntime().exec("open -e "+Project.getScriptFileFromName(fileName));
 
 				 }else {

@@ -224,6 +224,16 @@ public class SessionClient extends Thread{
 
 		  DeviceList.removeEdge(sensor1, sensor2);
 	  }
+	  if(tab[0].compareTo(COMMAND.LINK)==0){
+		  int id1 = Integer.valueOf(tab[1]);
+		  int id2 = Integer.valueOf(tab[2]);
+		  SensorNode sensor1 = DeviceList.getSensorNodeById(id1);
+		  SensorNode sensor2 = DeviceList.getSensorNodeById(id2);
+		  sensor1.addNeighbors(sensor2);
+		  
+		  
+		  System.out.println("Link between "+id1+"   and    "+id2);
+	  }
 
   }
 
@@ -236,7 +246,7 @@ public class SessionClient extends Thread{
 	    	 data_socket_port = Integer.valueOf(realNodeId) + 9000 ;
 	    	 System.out.println(realNodeId + " sending script port: ");
 	    	 data_server_socket = new ServerSocket(data_socket_port);
-			 out.println(COMMAND.SCRIPT+" 10.3.141.2 "+data_socket_port);
+			 out.println(COMMAND.SCRIPT+" 172.12.18.5 "+data_socket_port);
 			 System.out.println(realNodeId + " Command script sended");
 			 data_socket = data_server_socket.accept();
 

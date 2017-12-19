@@ -699,7 +699,8 @@ public abstract class SensorNode extends DeviceWithRadio {
 	public boolean canSee(SensorNode sn) {
 		GeoPosition gp1 = new GeoPosition(sn.getLatitude(), sn.getLongitude());
 		Point2D p = MapLayer.mapViewer.getTileFactory().geoToPixel(gp1, MapLayer.mapViewer.getZoom());
-		return geoZoneList.contains((Point) p);
+		//return geoZoneList.contains((Point) p);
+		return false;
 	}
 	
 	public boolean isSensorDetecting() {

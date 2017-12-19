@@ -18,5 +18,6 @@ public class COMMAND {
 	public static String MARK = "mark";
 	public static String ADDEDGE = "addedge";
 	public static String REMOVEEDGE = "removeedge";
+	public static String LINK = "link";
 
 }

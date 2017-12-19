@@ -100,6 +100,10 @@ public abstract class DeviceWithRadio extends DeviceWithWithoutRadio {
 		return new Polygon(polyX, polyY, nPoint);	
 	}
 	
+	public void addNeighbors(SensorNode s) {
+		neighbors.add(s);
+	}
+	
 	public boolean contains(Point2D p) {
 		if(nPoint>0)
 			return (getRadioPolygon().contains(p));
@@ -436,14 +440,18 @@ public abstract class DeviceWithRadio extends DeviceWithWithoutRadio {
 	 * @return if a neighbor device is in the propagation area of the current device
 	 */
 	public boolean propagationDetect(DeviceWithRadio device) {
+		return false;
+		/*
 		if (DeviceList.propagationsCalculated)
 			return neighbors.contains(device);
 		else
 			return radioDetect(device);
+		*/
 	}
 	
-	
+	// massi
 	public void calculatePropagations() {
+		
 		SimulationInputs.radioDetectionType = RadioDetection.POWER_RECEPTION_DETECTION;
 		neighbors = new LinkedList<SensorNode> () ;
 		for(SensorNode device : DeviceList.sensors) {
@@ -451,6 +459,7 @@ public abstract class DeviceWithRadio extends DeviceWithWithoutRadio {
 				neighbors.add(device);
 			}					
 		}
+		
 	}
 	
 	public void resetPropagations() {
