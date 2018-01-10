@@ -130,7 +130,9 @@ public class CupCarbonController implements Initializable {
 	private WorldMap map = null;
 	private SwingNode sn = null;
 	protected FaultInjector faultInjector = null;
-
+	
+	private int update;
+	
 	@FXML
 	public Button saveButton;
 
