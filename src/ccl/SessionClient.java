@@ -55,6 +55,8 @@ public class SessionClient extends Thread{
 
   private String ip;
   private String mac;
+  public LinkedList<String> logs = new LinkedList<String>();
+  private LogWindow logWindow = new LogWindow(logs);
 
 
   SessionClient(Socket s, Server serv)
@@ -87,6 +89,10 @@ public class SessionClient extends Thread{
   }
   public String mac(){
 	  return mac;
+  }
+  
+  public void showLogWindow() {
+	  this.logWindow.setVisible();
   }
 
   public void run()
@@ -135,6 +141,8 @@ public class SessionClient extends Thread{
 		  System.out.println("ajout nouveau client id: "+realNodeId);
 		  CupCarbon.cupCarbonController.updateRealNode(realNodeId , ip);
 		  out.println(COMMAND.CONNECTION);
+		  
+		  this.logWindow.setTitle(realNodeId);
 
 	  }
 	  if(tab[0].compareTo(COMMAND.SEND)== 0){
@@ -148,30 +156,8 @@ public class SessionClient extends Thread{
 	  }
 	  if(tab[0].compareTo(COMMAND.OK_GET_SCRIPT)== 0){
 		  display("CMD", message);
-
-		  try {
-			data_out = new PrintStream(data_socket.getOutputStream());
-
-			String sCurrentLine;
-
-			File scriptsFolderFile = new File(Project.getProjectScriptPath());
-			String[] scripts = scriptsFolderFile.list();
-			for (int i = 0; i < scripts.length; i++) {
-				if (scripts[i] != null)
-					if (!scripts[i].startsWith(".")){
-						fileReader = new BufferedReader(new FileReader(Project.getProjectScriptPath()+File.separator+scripts[i]));
-						data_out.println("file "+scripts[i]);
-						while ((sCurrentLine = fileReader.readLine()) != null) {
-							data_out.println(sCurrentLine);
-						}
-						data_out.println("EOF");
-					}
-
-			}
-			data_out.println("EOD");
-		  } catch (IOException e) {
-			  e.printStackTrace();
-		  }
+		  FileTransmeter ft = new FileTransmeter(data_socket, realNodeId);
+		  ft.start();
 	  }
 	  if(tab[0].compareTo(COMMAND.GET_SCRIPT)==0){
 		  display("CMD", message);
@@ -236,6 +222,11 @@ public class SessionClient extends Thread{
 		
 		  System.out.println("Link between "+id1+"   and    "+id2);
 	  }
+	  if(tab[0].compareTo(COMMAND.LOG)==0){
+		  String msg = tab[1].replaceAll("_", " ");
+		  logs.addLast(msg);
+		  this.logWindow.validate();
+	  }
 
   }
 
@@ -248,7 +239,7 @@ public class SessionClient extends Thread{
 	    	 data_socket_port = Integer.valueOf(realNodeId) + 9000 ;
 	    	 System.out.println(realNodeId + " sending script port: ");
 	    	 data_server_socket = new ServerSocket(data_socket_port);
-			 out.println(COMMAND.SCRIPT+" 172.12.18.5 "+data_socket_port);
+			 out.println(COMMAND.SCRIPT+" 10.3.141.2 "+data_socket_port);
 			 System.out.println(realNodeId + " Command script sended");
 			 data_socket = data_server_socket.accept();
 

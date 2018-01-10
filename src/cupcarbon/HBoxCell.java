@@ -7,8 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-
+import ccl.LogWindow;
 import ccl.RealNodeConfig;
+import ccl.SessionClient;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +34,7 @@ public class HBoxCell extends HBox {
     private ComboBox realNodeslist = new ComboBox();
     public Button run = new Button();
     public Button stop = new Button();
+    public Button log = new Button();
     private CupCarbonController app;
     private ObservableList myItems;
 
@@ -71,11 +73,13 @@ public class HBoxCell extends HBox {
          run.setText("Run");
          stop.setText("Stop");
          stop.setDisable(true);
-
+         log.setText("Log");
+         
          // Handle run Button event.
          run.setOnAction((event) -> {
         	 if(isRealNodeConnected()){
         		 run.setDisable(true);
+        		 
         		 String realNodeCurrentID = getSelectedElementCurrentID();
         		 if(realNodeCurrentID.equals("virtual")){
         			 if(!CupCarbon.cupCarbonController.real_nodes_server.isEmulatedNode(virtualNodeId)){
@@ -90,6 +94,7 @@ public class HBoxCell extends HBox {
         			 CupCarbon.cupCarbonController.real_nodes_server.sendScript(realNodeCurrentID);
 	        	 }
         		 stop.setDisable(false);
+        	
 
         	 }
          });
@@ -110,6 +115,20 @@ public class HBoxCell extends HBox {
         	 }
         	 MapLayer.repaint();
          });
+         
+       // Handle log Button event.
+         log.setOnAction((event) -> {
+        	 	
+        	 		SessionClient session =CupCarbon.cupCarbonController.real_nodes_server.getSessionByVirtualNodeId(virtualNodeId);
+        	 		if(session != null) session.showLogWindow();
+        	 		else {
+        	 			Alert alert = new Alert(AlertType.INFORMATION);
+        	 			alert.setTitle("Log");
+        	 			alert.setHeaderText(null);
+        	 			alert.setContentText("There is no log to display yet !");
+        	 			alert.showAndWait();
+        	 		}
+         });
 
          realNodeslist = new ComboBox(myItems);
          realNodeslist.setPrefWidth(100);
@@ -119,7 +138,7 @@ public class HBoxCell extends HBox {
 
          this.setSpacing(3);
 
-         this.getChildren().addAll(label, realNodeslist, run, stop,connectionStat);
+         this.getChildren().addAll(label, realNodeslist, run, stop,connectionStat,log);
          chooseRealNode();
          updateConnection();
     }

@@ -1,6 +1,7 @@
 package ccl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,6 +31,12 @@ public class RealNodeConfig {
 		this.virtualNode = "null";
 	}
 
+	
+	public static boolean exist(String filePath) {
+		File f = new File(filePath);
+		return f.exists();
+		
+	}
 	public void read(String filePath){
 		BufferedReader br = null;
 		FileReader fr = null;
